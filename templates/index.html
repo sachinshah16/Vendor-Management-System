@@ -1,0 +1,51 @@
+{% include "base.html" %}
+{% load static %}
+
+<style>
+  .row>img {
+    margin-top: 3vh;
+    width: 100%;
+    height: 40vh;
+  }
+
+  .vender-details {
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+</style>
+{% block start %}
+
+<div class="container">
+  <div class="jumbotron">
+    <div class="row">
+      <img src="{% static 'images/food.jpg' %}" alt="food image">
+    </div>
+
+    <div class="vender-details">
+      {% for vender in venders %}
+      <div class="card" >
+        {% if vender.restaurent_img %}
+          <img src="{{ vender.restaurent_img.url }}" style="width: 200px; height: 200px;" class="card-img-top" alt="resto-img">
+        {% else %}
+          <img src="{% static 'images/placeholder.png' %}" style="width: 200px; height: 200px;" class="card-img-top" alt="resto-placeholder">
+        {% endif %}
+
+        <a href="{% url 'venderdetails' %}" style="text-decoration: none;">
+          <h5 style="text-align: center;">{{vender.restaurent_name}}</h5>
+        </a>
+
+      </div>
+
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+
+{% endblock start %}

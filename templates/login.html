@@ -1,0 +1,33 @@
+{% include "base.html" %}
+
+<style>
+  .align-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+{% block start %}
+
+<div class="container align-center">
+  <div class="jumbotrain">
+    <h2>Login Form..!</h2>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <label for="username">Username:</label>
+      <input type="text" name="username"> <br><br>
+
+      <label for="password">Password:</label>
+      <input type="password" name="password" id=""> <br><br>
+
+      <input type="submit" value="submit" class="btn btn-secondary">
+    </form>
+  </div>
+
+</div>
+
+
+
+{% endblock start %}

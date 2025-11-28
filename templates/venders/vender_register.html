@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block start %}
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="card card-body">
+
+            {% if registerd %}
+            <h1 style="text-align: center;">Thank you for the registration</h1>
+            
+            {% else %}
+            <h1 style="text-align: center;">Registration Page</h1>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+
+                <input type="submit" value="Register" class="btn btn-primary">
+            </form>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock start %}

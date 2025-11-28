@@ -1,0 +1,49 @@
+{% include "base.html" %}
+{% load static %}
+
+<style>
+  img{
+    border-radius: 50%;
+  }
+</style>
+
+{% block start %}
+
+<div class="container">
+  <div class="jumbotrain ">
+    <h1 style="text-align: center;">Dashboard</h1>
+
+    <div class="row">
+      <div class="col-md-6">
+        {% if user.userdetails.img %}
+        <img src="{{user.userdetails.img.url}}" alt="" style="width: 200px; height:200px ">
+        <!-- <img src="{% static 'images/profile.png' %}" alt="" style="width: 200px; height:200px "> -->
+
+        {% else %}
+        <img src="{% static 'images/profile.png' %}" alt="" style="width: 200px; height:200px ">
+        {% endif %}
+
+      </div>
+      <div class="col-md-6">
+        <p>{{user.username}}'s Profile</p>
+        <p>{{user.email}}</p>
+        <p>{{user.userdetails.phone}}</p>
+        <p>{{user.userdetails.house_no}}</p>
+        <p>{{user.userdetails.street}}</p>
+        <p>{{user.userdetails.city}}</p>
+        <p>{{user.userdetails.zipcode}}</p>
+        <br>
+        
+        <a href="{% url 'update'%}" class="btn btn-secondary">Update Profile</a>
+
+      </div>
+
+    </div>
+    
+    
+  </div>
+</div>
+
+
+
+{% endblock start %}

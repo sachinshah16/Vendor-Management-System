@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+<style>
+    .justify-content-center{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+        min-height: 50vh;
+    }
+</style>
+
+{% block start %}
+<div class="container">
+    <div class="jumbotrain" >
+        <h1>Update Details: </h1><br><br>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {{ form1.as_p }}
+                <input type="submit" value="Save" class="btn btn-success">
+            </form>
+
+
+
+
+
+        {% comment %} <table>
+            <tbody>
+                <tr>
+                    <td><label for="username">Username:</label></td>
+                    <td><input type="text" name="username" id="" value="{{user.username}}"></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email:</label></td>
+                    <td><input type="email" name="email" id="" value="{{user.email}}"></td>
+                </tr>
+                <tr>
+                    <td><a href="" class="btn btn-secondary">Update</a></td>
+                </tr>
+            </tbody>
+        </table> {% endcomment %}
+
+    </div>
+</div>
+{% endblock start %}
