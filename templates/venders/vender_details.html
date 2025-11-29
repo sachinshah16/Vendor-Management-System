@@ -1,33 +1,44 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block head %}
+  
 <style>
     .align-center{
         width: 70%;
         height: fit-content;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-        margin-left: 20px;
+        margin-left: 15%;
+        margin-top: 5%;
+        font-size: 1.3rem;
+
     }
 </style>
+{% endblock head %}
+
+
 {% block start %}
 <div class="container">
     <div class="jumbotron">
-        <h1>{{vender.restaurent_name}} Vender Details</h1>
+        <h1>{{vender.restaurent_name}} Details</h1>
 
-        {% if vendor.is_approved %}
-            <h1>jhds</h1>
+        {% if vender.is_approved %}
+            <div class="card align-center">
+                <p><b>Vender name: </b>{{vender.vender_name}}</p>
+                <p><b>Address: </b>{{vender.address}}</p>
+                <p><b>City: </b>{{vender.city}}</p>
+                <p><b>State: </b>{{vender.state}}</p>
+                <p><b>Zipcode: </b>{{vender.zipcode}}</p>
+                <img src="{{ vender.restaurent_img.url }}" alt="" width="80%">
+
+            </div>
 
         {% else %}
-        <div class="align-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                class="bi bi-hourglass-split" viewBox="0 0 16 16">
-                <path
-                    d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
-            </svg>
-            <p class="card-body">Waiting for admin approval</p>
+        <div class="card align-center">
+            <iframe src="https://lottie.host/embed/b0eea3f1-413f-4b3b-8d67-14c397947876/ka2qAYHUrC.lottie" width="80%"></iframe>
+            <p class="card-body" >Waiting for admin approval</p>
         </div>
 
         {% endif %}
