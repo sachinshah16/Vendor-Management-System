@@ -15,3 +15,6 @@ class userDetails(models.Model):
     state = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=100)
     img = models.ImageField(upload_to='userimg/',blank=True, null=True)
+    user_type = models.CharField(max_length=100, default='customer')
+
+    
