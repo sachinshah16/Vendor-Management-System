@@ -1,10 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
+
 
 # Create your models here.
 
 class userDetails(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
     # Additional fields
     

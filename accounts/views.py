@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import *
 from venders.models import *
 
+from .userRole import get_user_role
+
 # Create your views here.
 
 def registration(request):
@@ -42,6 +44,9 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
+
+                role = get_user_role(request)
+                print(role)
                 return redirect('home')
         else:
             return HttpResponse('<h1>Please check your cred....</h1>')

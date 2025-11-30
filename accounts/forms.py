@@ -1,8 +1,12 @@
 from django import forms
-from accounts.models import userDetails
-from django.contrib.auth.models import User
 from django_recaptcha.fields import ReCaptchaField
 
+from accounts.models import userDetails
+from django.contrib.auth import get_user_model
+
+
+
+User = get_user_model()
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
