@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block head %}
-  
+
 <style>
-    .align-center{
+    .align-center {
         width: 70%;
         height: fit-content;
         display: flex;
@@ -25,23 +25,49 @@
         <h1>{{vender.restaurent_name}} Details</h1>
 
         {% if vender.is_approved %}
-            <div class="card align-center">
-                <p><b>Vender name: </b>{{vender.vender_name}}</p>
-                <p><b>Address: </b>{{vender.address}}</p>
-                <p><b>City: </b>{{vender.city}}</p>
-                <p><b>State: </b>{{vender.state}}</p>
-                <p><b>Zipcode: </b>{{vender.zipcode}}</p>
-                <img src="{{ vender.restaurent_img.url }}" alt="" width="80%">
+        <div class="card">
+            <div class="row" style="margin-left: 2%;">
+                <div class="col-md-6">
+                    <img src="{{ vender.restaurent_img.url }}" alt="" style="border-radius: 50%;">
+                </div>
+                <div class="col-md-6">
+                    <p><b>Vender Name:</b>{{vender.user}}</p>
+                    <p><b>Address: </b>{{vender.address}}</p>
+                    <p><b>City: </b>{{vender.city}}</p>
+                    <p><b>State: </b>{{vender.state}}</p>
+                    <p><b>Zipcode: </b>{{vender.zipcode}}</p>
+                </div>
 
             </div>
 
-        {% else %}
-        <div class="card align-center">
-            <iframe src="https://lottie.host/embed/b0eea3f1-413f-4b3b-8d67-14c397947876/ka2qAYHUrC.lottie" width="80%"></iframe>
-            <p class="card-body" >Waiting for admin approval</p>
         </div>
+        <hr>
+        <b>Food Items Available</b>
+        <div class="row">
+            {% for food in fooditems %}
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{food.food_img.url}}" class="card-img-top" alt="..." width="100px" height="200px"
+                        style="object-fit:fill;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{food.food_name}}</h5>
+                        <p class="card-text">{{food.food_desc}}</p>
+                        <p class="card-title">Price:{{food.price}}</p>
+                        <a href="" class="btn btn-info">Order Now</a>
+                    </div>
+                </div>
+            </div>
 
-        {% endif %}
+            {% endfor %}
+
+            {% else %}
+            <div class="card align-center">
+                <iframe src="https://lottie.host/embed/b0eea3f1-413f-4b3b-8d67-14c397947876/ka2qAYHUrC.lottie"
+                    width="80%"></iframe>
+                <p class="card-body">Waiting for admin approval</p>
+            </div>
+
+            {% endif %}
+        </div>
     </div>
-</div>
-{% endblock start %}
+    {% endblock start %}

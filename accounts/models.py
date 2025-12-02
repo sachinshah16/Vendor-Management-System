@@ -18,4 +18,7 @@ class userDetails(models.Model):
     img = models.ImageField(upload_to='userimg/',blank=True, null=True)
     user_type = models.CharField(max_length=100, default='customer')
 
+    def __str__(self):
+        return str(self.user.username)
+
     

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from venders.models import *
 from venders.forms import *
 
@@ -26,6 +26,23 @@ def venderRegister(request):
 
 def vender_details(request, id=0):
     vender = multiVenders.objects.get(id=id)
-    return render(request, 'venders/vender_details.html',{'vender':vender})
+    fooditems = foodItem.objects.filter(vender = id)
+    return render(request, 'venders/vender_details.html',{'vender':vender,'fooditems':fooditems})
+
+def addFood(request):
+    msg = ''
+    if request.method == "POST":
+        form = addFoodForm(request.POST, request.FILES)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.vender = request.user.multivenders
+            item.save()
+            msg = "Item added successfuly"
+            redirect('addfood')
+            
+    else:
+        form = addFoodForm()
+    return render(request, 'venders/addfood.html', {'form':form, 'msg':msg})
+
 
 

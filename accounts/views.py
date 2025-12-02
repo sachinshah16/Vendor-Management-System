@@ -6,8 +6,6 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import *
 from venders.models import *
 
-from .userRole import get_user_role
-
 # Create your views here.
 
 def registration(request):
@@ -43,11 +41,19 @@ def user_login(request):
         
         if user:
             if user.is_active:
+
+                if hasattr(user, 'userdetails'):
+                    role = 'Customer'
+                elif hasattr(user, 'multivenders'):
+                    role = 'Vender'
+                else:
+                    role = 'Admin'
+                print(role)
+                request.session['user_type'] = role
+                request.session.save()
                 login(request, user)
 
-                role = get_user_role(request)
-                print(role)
-                return redirect('home')
+                return redirect('dashboard')
         else:
             return HttpResponse('<h1>Please check your cred....</h1>')
     return render(request,'login.html',{})
@@ -55,8 +61,9 @@ def user_login(request):
 
 @login_required(login_url="login")
 def dashboard(request):
-    
-    return render(request,'dashboard.html',{})
+    role = request.session.get('user_type','admin')
+    fooditems = foodItem.objects.filter(vender= request.user.multivenders.id)
+    return render(request,'dashboard.html',{'role':role, 'fooditems':fooditems})
 
 
 @login_required(login_url="login")
