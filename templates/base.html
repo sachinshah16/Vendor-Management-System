@@ -11,9 +11,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     {% block head %}
-      
+
     {% endblock head %}
 
 
@@ -21,27 +22,68 @@
 
 <body>
     <header>
+        <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+            <div class="container-fluid" style="margin: 0px;">
+                <a class="navbar-brand" href="{% url 'home' %}" style="margin: 0px; padding:0px;">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" width="40" height="40"
+                        style="background-color: aliceblue; border-radius:10%; margin:0px;">
+                </a>
 
-        <nav class="nav justify-content-end bg-dark">
-            {% if user.is_authenticated %}
-            <a href="{% url 'home' %}" class="nav-link">Home</a>
-            <a href="{% url 'dashboard' %}" class="nav-link ">Dashboard</a>
-            <a href="{% url 'logout' %}" class="nav-link ">Logout</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            {% else %}
-            <a href="{% url 'register' %}" class="nav-link ">Register</a>
-            <a href="{% url 'login' %}" class="nav-link ">Login</a>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0"> <!-- moved nav items to the right -->
 
-            {% endif %}
-            <a href="{% url 'venderregister' %}" class="nav-link ">Register Vender</a>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}" class="nav-link" id="home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'dashboard' %}" class="nav-link " id="dashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'logout' %}" class="nav-link ">Logout</a>
+                        </li>
 
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'register' %}" class="nav-link " id="user_reg">User Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'login' %}" class="nav-link " id="login">Login</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{% url 'venderregister' %}" class="nav-link " id="vendor_reg">Vendor Register</a>
+                        </li>
+
+
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </nav>
+
     </header>
 
     {% block start %}
 
     {% endblock start %}
 
+    <script>
+        let current = location.pathname;
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === current) {
+                link.classList.add('active');
+            }
+        });
+
+    </script>
 </body>
 
 </html>

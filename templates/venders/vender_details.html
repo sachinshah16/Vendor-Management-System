@@ -22,13 +22,13 @@
 {% block start %}
 <div class="container">
     <div class="jumbotron">
-        <h1>{{vender.restaurent_name}} Details</h1>
+        <h1>{{vender.restaurent_name}}</h1>
 
         {% if vender.is_approved %}
         <div class="card">
             <div class="row" style="margin-left: 2%;">
                 <div class="col-md-6">
-                    <img src="{{ vender.restaurent_img.url }}" alt="" style="border-radius: 50%;">
+                    <img src="{{ vender.restaurent_img.url }}" alt="" style="border-radius: 50%;" height="200rem">
                 </div>
                 <div class="col-md-6">
                     <p><b>Vender Name:</b>{{vender.user}}</p>
@@ -41,19 +41,19 @@
             </div>
 
         </div>
-        <hr>
-        <b>Food Items Available</b>
+        <br>
+        <b>Food Menu</b>
         <div class="row">
             {% for food in fooditems %}
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{food.food_img.url}}" class="card-img-top" alt="..." width="100px" height="200px"
+            <div class="col-md-3">
+                <div class="card" style="width: 12rem; height:21rem">
+                    <img src="{{food.food_img.url}}" class="card-img-top" alt="..." height="150rem"
                         style="object-fit:fill;">
                     <div class="card-body">
                         <h5 class="card-title">{{food.food_name}}</h5>
                         <p class="card-text">{{food.food_desc}}</p>
                         <p class="card-title">Price:{{food.price}}</p>
-                        <a href="" class="btn btn-info">Order Now</a>
+                        <a href="" class="btn btn-info">Add to cart</a>
                     </div>
                 </div>
             </div>

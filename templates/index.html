@@ -23,20 +23,21 @@
 <div class="container">
   <div class="jumbotron">
     <div class="row">
-      <img src="{% static 'images/food.jpg' %}" alt="food image">
+      <img src="{% static 'images/food.jpg' %}" style="border-radius: 30px;" alt="food image">
     </div>
 
     <div class="vender-details">
       {% for vender in venders %}
       <div class="card" >
+        <a href="{% url 'venderdetails' vender.id %}" style="text-decoration: none;">
         {% if vender.restaurent_img %}
-          <img src="{{ vender.restaurent_img.url }}" style="width: 200px; height: 200px;" class="card-img-top" alt="resto-img">
+          <img src="{{ vender.restaurent_img.url }}" style="width: 200px; height: 200px; border-radius:50%; outline:solid 2px green;" class="card-img-top" alt="resto-img">
         {% else %}
           <img src="{% static 'images/placeholder.png' %}" style="width: 200px; height: 200px;" class="card-img-top" alt="resto-placeholder">
         {% endif %}
 
-        <a href="{% url 'venderdetails' vender.id %}" style="text-decoration: none;">
-          <h5 style="text-align: center;">{{vender.restaurent_name}}</h5>
+        
+          <h5 style="text-align: center; background-color:rgb(148, 247, 192); color:black">{{vender.restaurent_name}}</h5>
         </a>
 
       </div>

@@ -45,21 +45,20 @@
             <b>State: </b>{{user.multivenders.state}}
           </div>
         </div>
-
-        <hr>
-        <b>Food Items</b>
+        <br>
+        <b>Menu</b>
         <div class="row">
           {% for food in fooditems %}
-          <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
+          <div class="col-md-3">
+            <div class="card" style="width: 12rem;">
               <img src="{{food.food_img.url}}" class="card-img-top" alt="..." width="100px" height="200px"
                 style="object-fit:fill;">
               <div class="card-body">
                 <h5 class="card-title">{{food.food_name}}</h5>
                 <p class="card-text">{{food.food_desc}}</p>
                 <p class="card-title">Price:{{food.price}}</p>
-                <a href="" class="btn btn-dark">Edit</a>
-                <a href="" class="btn btn-danger ">Delete</a>
+                <a href="" class="btn btn-dark">&#9999;</a>
+                <a href="" class="btn btn-danger "><i class="fa fa-trash-o"></i></a>
               </div>
             </div>
           </div>
@@ -104,7 +103,5 @@
 
   </div>
 </div>
-
-
 
 {% endblock start %}

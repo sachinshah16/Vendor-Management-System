@@ -62,8 +62,14 @@ def user_login(request):
 @login_required(login_url="login")
 def dashboard(request):
     role = request.session.get('user_type','admin')
-    fooditems = foodItem.objects.filter(vender= request.user.multivenders.id)
-    return render(request,'dashboard.html',{'role':role, 'fooditems':fooditems})
+    
+    if request.session['user_type'] == "Vender":
+        vendor = request.user.multivenders  # OneToOne relation
+        fooditems = vendor.food_items.all()  # Using related_name
+        # fooditems = foodItem.objects.filter(vender= request.user.multivenders.id)
+        return render(request,'dashboard.html',{'role':role, 'fooditems':fooditems})
+    return render(request,'dashboard.html',{'role':role})
+    
 
 
 @login_required(login_url="login")

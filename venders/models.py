@@ -25,11 +25,11 @@ class multiVenders(models.Model):
         return self.user.username
 
 class foodItem(models.Model):
-    vender = models.ForeignKey(multiVenders, on_delete=models.CASCADE)
+    vender = models.ForeignKey(multiVenders, on_delete=models.CASCADE, related_name='food_items')
     food_name = models.CharField(max_length=50)
     food_desc = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    food_img = models.ImageField(upload_to='foodimg', unique=None, null=None)
+    food_img = models.ImageField(upload_to='foodimg', blank=True, null=True)
     
     def __str__(self):
         return self.food_name

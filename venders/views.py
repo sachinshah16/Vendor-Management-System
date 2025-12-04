@@ -30,19 +30,18 @@ def vender_details(request, id=0):
     return render(request, 'venders/vender_details.html',{'vender':vender,'fooditems':fooditems})
 
 def addFood(request):
-    msg = ''
+
     if request.method == "POST":
         form = addFoodForm(request.POST, request.FILES)
         if form.is_valid():
             item = form.save(commit=False)
             item.vender = request.user.multivenders
             item.save()
-            msg = "Item added successfuly"
-            redirect('addfood')
+            redirect('dashboard')
             
     else:
         form = addFoodForm()
-    return render(request, 'venders/addfood.html', {'form':form, 'msg':msg})
+    return render(request, 'venders/addfood.html', {'form':form})
 
 
 
