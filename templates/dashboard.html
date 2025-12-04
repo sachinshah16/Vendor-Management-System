@@ -1,107 +1,152 @@
 {% include "base.html" %}
 {% load static %}
-{% load crispy_forms_tags%}
+{% load crispy_forms_tags %}
 
+{% block start %}
 <style>
-  img {
+  .dashboard-container {
+    margin-top: 30px;
+    margin-bottom: 40px;
+  }
+
+  .section-title {
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    border-left: 4px solid #ff7a00;
+    padding-left: 10px;
+  }
+
+  .info-row {
+    background: #fff;
+    padding: 14px;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    margin-bottom: 12px;
+  }
+
+  .menu-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .menu-card {
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+  }
+
+  .menu-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .menu-card-body {
+    padding: 12px;
+  }
+
+  .profile-pic {
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    background: #f5f5f5;
   }
 </style>
 
-{% block start %}
+<div class="container dashboard-container">
 
-<div class="container">
-  <div class="jumbotrain ">
-    <h1 style="text-align: center;">{{role}} Dashboard</h1>
+  <h2 class="mb-4 text-center">{{ role }} Dashboard</h2>
 
+  {% if role == "Vender" %}
+  <!-- ========================= VENDOR DASHBOARD ====================== -->
+  <div class="mb-3">
+    <a href="{% url 'vender_edit' %}" class="btn btn-success">Edit Profile&#9999;</a>
+  </div>
+  <div class="section-title">Vendor Details </div>
+
+  <div class="info-row">
     <div class="row">
-      <div class="col">
+      <div class="col-md-4"><b>Vendor Name:</b> {{ user.username }}</div>
+      <div class="col-md-4"><b>Email:</b> {{ user.email }}</div>
+      <div class="col-md-4"><b>Restaurant Name:</b> {{ user.multivenders.restaurent_name }}</div>
+    </div>
+    <div class="row mt-2">
+      <div class="vendor-meta"><strong>Address:</strong> {{ user.multivenders.address }}, {{ user.multivenders.city }}, {{ user.multivenders.state }} - {{ user.multivenders.zipcode }}</div>
+    </div>
+  </div>
 
-        {% if role == 'Vender' %}
-        <div class="">
-          <a href="{% url 'addfood' %}" class="btn btn-success">Build Menu&oplus;</a>
+  <div class="mb-3">
+    <a href="{% url 'addfood' %}" class="btn btn-success">Add Food Item &plus;</a>
+  </div>
+
+  <div class="section-title">Your Menu</div>
+
+  <div class="menu-grid">
+    {% for food in fooditems %}
+    <div class="menu-card">
+      <img src="{{ food.food_img.url }}" alt="Food Image">
+
+      <div class="menu-card-body">
+        <h5 class="mb-1">{{ food.food_name }}</h5>
+
+        <details>
+          <summary>Description</summary>
+          <p class="mb-1">{{ food.food_desc }}</p>
+        </details>
+
+        <p><b>Price:</b> ₹{{ food.price }}</p>
+
+        <div class="d-flex gap-2">
+          <a href="" class="btn btn-dark btn-sm">&#9999;</a>
+          <a href="" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
         </div>
-        <br>
-        <div class="row">
-          <div class="col-md-4">
-            <b>Vendor Name: </b>{{user.username}}
-          </div>
-          <div class="col-md-4">
-            <b>Email: </b>{{user.email}}
-          </div>
-          <div class="col-md-4">
-            <b>Restaurent Name: </b>{{user.multivenders.restaurent_name}}
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4">
-            <b>Address: </b>{{user.multivenders.address}}
-          </div>
-          <div class="col-md-4">
-            <b>City: </b>{{user.multivenders.city}}
-          </div>
-          <div class="col-md-4">
-            <b>State: </b>{{user.multivenders.state}}
-          </div>
-        </div>
-        <br>
-        <b>Menu</b>
-        <div class="row">
-          {% for food in fooditems %}
-          <div class="col-md-3">
-            <div class="card" style="width: 12rem;">
-              <img src="{{food.food_img.url}}" class="card-img-top" alt="..." width="100px" height="200px"
-                style="object-fit:fill;">
-              <div class="card-body">
-                <h5 class="card-title">{{food.food_name}}</h5>
-                <p class="card-text">{{food.food_desc}}</p>
-                <p class="card-title">Price:{{food.price}}</p>
-                <a href="" class="btn btn-dark">&#9999;</a>
-                <a href="" class="btn btn-danger "><i class="fa fa-trash-o"></i></a>
-              </div>
-            </div>
-          </div>
-
-          {% endfor %}
-
-        </div>
-
-
-
-        {% elif role == 'Admin'%}
-        <!-- <h1>Admin dashboard</h1> -->
-        {% else %}
-
-        <!-- -------------------------------------------------------------------- -->
-        {% if user.userdetails.img %}
-        <img src="{{user.userdetails.img.url}}" alt="" style="width: 200px; height:200px ">
-        <!-- <img src="{% static 'images/profile.png' %}" alt="" style="width: 200px; height:200px "> -->
-
-        {% else %}
-        <img src="{% static 'images/profile.png' %}" alt="" style="width: 200px; height:200px ">
-        {% endif %}
-
       </div>
-      <div class="col-md-6">
-        <p>{{user.username}}'s Profile</p>
-        <p>{{user.email}}</p>
-        <p>{{user.userdetails.phone}}</p>
-        <p>{{user.userdetails.house_no}}</p>
-        <p>{{user.userdetails.street}}</p>
-        <p>{{user.userdetails.city}}</p>
-        <p>{{user.userdetails.zipcode}}</p>
-        <br>
+    </div>
+    {% empty %}
+    <p>No food items added yet.</p>
+    {% endfor %}
+  </div>
 
-        <a href="{% url 'update'%}" class="btn btn-secondary">Update Profile</a>
-        {% endif %}
-      </div>
+  {% elif role == "Admin" %}
+  <!-- ========================= ADMIN DASHBOARD ====================== -->
 
+  <h4 class="section-title">Admin Dashboard</h4>
+  <p>This admin section is not yet implemented.</p>
 
+  {% else %}
+  <!-- ========================= USER DASHBOARD ====================== -->
+
+  <div class="row">
+    <div class="col-md-4 text-center">
+      {% if user.userdetails.img %}
+      <img src="{{ user.userdetails.img.url }}" class="profile-pic">
+      {% else %}
+      <img src="{% static 'images/profile.png' %}" class="profile-pic">
+      {% endif %}
     </div>
 
+    <div class="col-md-8">
+      <div class="section-title">{{ user.username }}'s Profile</div>
 
+      <div class="info-row">
+        <p><b>Email:</b> {{ user.email }}</p>
+        <p><b>Phone:</b> {{ user.userdetails.phone }}</p>
+        <p><b>House No:</b> {{ user.userdetails.house_no }}</p>
+        <p><b>Street:</b> {{ user.userdetails.street }}</p>
+        <p><b>City:</b> {{ user.userdetails.city }}</p>
+        <p><b>Zipcode:</b> {{ user.userdetails.zipcode }}</p>
+      </div>
+
+      <a href="{% url 'update' %}" class="btn btn-secondary mt-2">Update Profile</a>
+    </div>
   </div>
+
+  {% endif %}
 </div>
 
 {% endblock start %}

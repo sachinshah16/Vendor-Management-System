@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+<style>
+  /* Vendor Edit Page - theme consistent */
+  .edit-vendor-wrap {
+    max-width: 900px;
+    margin: 36px auto;
+  }
+
+  .edit-card {
+    background: #fff;
+    padding: 26px;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+  }
+
+  .page-title {
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .form-row { margin-bottom: 12px; }
+
+  .vendor-avatar-preview {
+    width: 140px;
+    height:140px;
+    border-radius:12px;
+    object-fit:cover;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    background:#f6f6f6;
+  }
+
+  .btn-actions { display:flex; gap:10px; align-items:center; justify-content:flex-end; margin-top:14px; }
+
+  @media (max-width:576px) {
+    .btn-actions { justify-content:stretch; flex-direction:column; }
+  }
+</style>
+{% endblock head %}
+
+{% block start %}
+<div class="container edit-vendor-wrap">
+  <div class="edit-card">
+
+    <h2 class="page-title">Edit Vendor Profile</h2>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+
+      <!-- User basic fields (username, email) -->
+      <div class="row form-row">
+        <div class="col-md-6">
+          {{ form1.username|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+          {{ form1.email|as_crispy_field }}
+        </div>
+      </div>
+
+      <!-- Restaurant basic info -->
+      <div class="row form-row">
+        <div class="col-12">
+          {{ form2.restaurent_name|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row form-row">
+        <div class="col-md-6">
+          {{ form2.address|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+          {{ form2.city|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row form-row">
+        <div class="col-md-6">
+          {{ form2.state|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+          {{ form2.zipcode|as_crispy_field }}
+        </div>
+      </div>
+
+      <!-- Images / License -->
+      <div class="row form-row align-items-center">
+        <div class="col-md-6">
+          {{ form2.restaurent_img|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+          {{ form2.restaurent_lic|as_crispy_field }}
+        </div>
+      </div>
+
+      <!-- Optional preview of current image -->
+      {% if vender and vender.restaurent_img %}
+        <div class="row form-row">
+          <div class="col-12 d-flex align-items-center gap-3">
+            <div>
+              <img src="{{ vender.restaurent_img.url }}" alt="current restaurant image" class="vendor-avatar-preview" loading="lazy">
+            </div>
+            <div>
+              <div><strong>Current image</strong></div>
+              <div class="text-muted">Upload a new image to replace.</div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Save / Cancel -->
+      <div class="btn-actions">
+        <a href="{% if vender %}{% url 'venderdetails' vender.id %}{% else %}{% url 'dashboard' %}{% endif %}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-dark">Save Changes</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock start %}

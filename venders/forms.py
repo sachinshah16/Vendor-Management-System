@@ -18,6 +18,17 @@ class venderDetailsForm(forms.ModelForm):
         fields = '__all__'
         exclude = ('is_approved', 'user_type', 'user')
 
+class UpdateVenderForm(forms.ModelForm):
+    class Meta:
+        model=User
+        fields=["username","email"]
+
+class UpdateVenderDetailsform(forms.ModelForm):
+    class Meta:
+        model=multiVenders
+        fields = '__all__'
+        exclude = ('is_approved', 'user_type', 'user')
+
 class addFoodForm(forms.ModelForm):
     class Meta:
         model = foodItem

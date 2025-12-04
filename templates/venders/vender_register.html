@@ -2,72 +2,118 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+{% block head %}
+<style>
+  /* Vendor registration styles (move to static later) */
+  .vendor-reg-container {
+    max-width: 820px;
+    margin: 40px auto;
+  }
+
+  .vendor-card {
+    border-radius: 14px;
+    padding: 28px;
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+  }
+
+  .vendor-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 22px;
+    font-size: 1.6rem;
+  }
+
+  .form-row { margin-bottom: 12px; }
+
+  .btn-primary {
+    padding: 10px 22px;
+    font-weight: 600;
+  }
+
+  /* small responsive tweak */
+  @media (max-width: 576px) {
+    .vendor-card { padding: 18px; }
+  }
+</style>
+{% endblock head %}
+
 {% block start %}
+<div class="container vendor-reg-container">
+  <div class="vendor-card">
 
-<div class="container">
-    <div class="jumbotron">
-        <div class="card card-body">
+    {% if registerd %}
+      <div class="text-center">
+        <h2>Thank you for registering 🎉</h2>
+        <p>Your vendor registration was submitted.</p>
+      </div>
 
-            {% if registerd %}
-            <h1 style="text-align: center;">Thank you for the registration</h1>
+    {% else %}
+      <h2 class="vendor-title">Vendor Registration</h2>
 
-            {% else %}
-            <h1 style="text-align: center;">Vendor Registration Page</h1>
-            <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6">
-                        {{form1.username | as_crispy_field}}
-                    </div>
-                    <div class="col-md-6">
-                        {{form1.email | as_crispy_field}}
-                    </div>
-                </div>
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-                <div class="row">
-                    <div class="col-md-6">
-                        {{form2.restaurent_name | as_crispy_field}}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        {{form2.address | as_crispy_field}}
-                    </div>
-                    <div class="col-md-6">
-                        {{form2.city | as_crispy_field}}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        {{form2.state | as_crispy_field}}
-                    </div>
-                    <div class="col-md-6">
-                        {{form2.zipcode | as_crispy_field}}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        {{form2.restaurent_img | as_crispy_field}}
-                    </div>
-                    <div class="col-md-6">
-                        {{form2.restaurent_lic | as_crispy_field}}
-                    </div>
-
-                </div>
-                <div class="row">
-
-                    {{form1.password | as_crispy_field}}
-
-                </div>
-
-                <input type="submit" value="Register" class="btn btn-primary">
-            </form>
-            {% endif %}
-
+        <!-- row 1 -->
+        <div class="row form-row">
+          <div class="col-md-6">
+            {{ form1.username | as_crispy_field }}
+          </div>
+          <div class="col-md-6">
+            {{ form1.email | as_crispy_field }}
+          </div>
         </div>
-    </div>
-</div>
 
+        <!-- restaurant name -->
+        <div class="row form-row">
+          <div class="col-12">
+            {{ form2.restaurent_name | as_crispy_field }}
+          </div>
+        </div>
+
+        <!-- address / city -->
+        <div class="row form-row">
+          <div class="col-md-6">
+            {{ form2.address | as_crispy_field }}
+          </div>
+          <div class="col-md-6">
+            {{ form2.city | as_crispy_field }}
+          </div>
+        </div>
+
+        <!-- state / zipcode -->
+        <div class="row form-row">
+          <div class="col-md-6">
+            {{ form2.state | as_crispy_field }}
+          </div>
+          <div class="col-md-6">
+            {{ form2.zipcode | as_crispy_field }}
+          </div>
+        </div>
+
+        <!-- images / license -->
+        <div class="row form-row">
+          <div class="col-md-6">
+            {{ form2.restaurent_img | as_crispy_field }}
+          </div>
+          <div class="col-md-6">
+            {{ form2.restaurent_lic | as_crispy_field }}
+          </div>
+        </div>
+
+        <!-- password -->
+        <div class="row form-row">
+          <div class="col-12">
+            {{ form1.password | as_crispy_field }}
+          </div>
+        </div>
+
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+      </form>
+    {% endif %}
+
+  </div>
+</div>
 {% endblock start %}

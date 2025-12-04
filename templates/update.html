@@ -1,48 +1,56 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block head %}
 <style>
-    .justify-content-center{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 70%;
-        min-height: 50vh;
+    /* Update Profile page styling */
+    .update-container {
+        max-width: 750px;
+        margin: 40px auto;
+    }
+
+    .update-card {
+        background: #fff;
+        padding: 28px;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    }
+
+    .update-title {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 24px;
+        font-size: 1.6rem;
+    }
+
+    .btn-save {
+        padding: 10px 20px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    @media (max-width: 576px) {
+        .update-card { padding: 20px; }
     }
 </style>
+{% endblock head %}
 
 {% block start %}
-<div class="container">
-    <div class="jumbotrain" >
-        <h1>Update Details: </h1><br><br>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                {{ form1.as_p }}
-                <input type="submit" value="Save" class="btn btn-success">
-            </form>
+<div class="container update-container">
 
+    <div class="update-card">
+        <h2 class="update-title">Update Your Details</h2>
 
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
 
+            <!-- Both your forms -->
+            {{ form.as_p }}
+            {{ form1.as_p }}
 
-
-        {% comment %} <table>
-            <tbody>
-                <tr>
-                    <td><label for="username">Username:</label></td>
-                    <td><input type="text" name="username" id="" value="{{user.username}}"></td>
-                </tr>
-                <tr>
-                    <td><label for="email">Email:</label></td>
-                    <td><input type="email" name="email" id="" value="{{user.email}}"></td>
-                </tr>
-                <tr>
-                    <td><a href="" class="btn btn-secondary">Update</a></td>
-                </tr>
-            </tbody>
-        </table> {% endcomment %}
-
+            <button type="submit" class="btn btn-success btn-save">Save Changes</button>
+        </form>
     </div>
+
 </div>
 {% endblock start %}
