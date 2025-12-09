@@ -24,7 +24,7 @@ class multiVenders(models.Model):
     def __str__(self):
         return self.user.username
 
-class foodItem(models.Model):
+class foodItems(models.Model):
     vender = models.ForeignKey(multiVenders, on_delete=models.CASCADE, related_name='food_items')
     food_name = models.CharField(max_length=50)
     food_desc = models.CharField(max_length=100)

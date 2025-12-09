@@ -2,9 +2,9 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import multiVenders, foodItem
+from .models import *
 
 admin.site.register(multiVenders)
-admin.site.register(foodItem)
+admin.site.register(foodItems)
 
 

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+<style>
+    /* Add Food page styles (move to static later if you want) */
+    .addfood-container {
+        max-width: 720px;
+        margin: 36px auto;
+    }
+
+    .addfood-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .page-title {
+        text-align: center;
+        font-weight: 800;
+        margin-bottom: 14px;
+        font-size: 1.4rem;
+    }
+
+    .form-row {
+        margin-bottom: 12px;
+    }
+
+    .btn-actions { display:flex; gap:10px; align-items:center; justify-content:flex-end; margin-top:14px; }
+
+    .msg-box {
+        text-align: center;
+        padding: 18px;
+        border-radius: 10px;
+        background: #f6ffef;
+        color: #1f7a1f;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    @media (max-width: 576px) {
+        .addfood-card {
+            padding: 18px;
+        }
+    }
+</style>
+{% endblock head %}
+
+{% block start %}
+<div class="container addfood-container">
+    <div class="addfood-card">
+
+        {% if msg %}
+        <div class="msg-box">
+            <h4 class="mb-0">{{ msg }}</h4>
+        </div>
+        
+        {% else %}
+        <h3 class="page-title">Add Food Item</h3>
+
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row form-row">
+                <div class="col-md-12">
+                    {{ form.food_name | as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row form-row">
+                <div class="col-md-12">
+                    {{ form.food_desc | as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row form-row">
+                <div class="col-md-6">
+                    {{ form.price | as_crispy_field }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.food_img | as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="btn-actions">
+                <a href="{% if vender %}{% url 'venderdetails' vender.id %}{% else %}{% url 'dashboard' %}{% endif %}"
+                    class="btn btn-outline-secondary">Cancel</a>
+                <button type="submit" class="btn btn-success">ADD</button>
+            </div>
+        </form>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock start %}

@@ -76,12 +76,13 @@
       <div class="col-md-4"><b>Restaurant Name:</b> {{ user.multivenders.restaurent_name }}</div>
     </div>
     <div class="row mt-2">
-      <div class="vendor-meta"><strong>Address:</strong> {{ user.multivenders.address }}, {{ user.multivenders.city }}, {{ user.multivenders.state }} - {{ user.multivenders.zipcode }}</div>
+      <div class="vendor-meta"><strong>Address:</strong> {{ user.multivenders.address }}, {{ user.multivenders.city }},
+        {{ user.multivenders.state }} - {{ user.multivenders.zipcode }}</div>
     </div>
   </div>
 
   <div class="mb-3">
-    <a href="{% url 'addfood' %}" class="btn btn-success">Add Food Item &plus;</a>
+    <a href="{% url 'addmenu' %}" class="btn btn-success">Add Food Item &plus;</a>
   </div>
 
   <div class="section-title">Your Menu</div>
@@ -89,7 +90,9 @@
   <div class="menu-grid">
     {% for food in fooditems %}
     <div class="menu-card">
+      {% if food.food_img %}
       <img src="{{ food.food_img.url }}" alt="Food Image">
+      {% endif %}
 
       <div class="menu-card-body">
         <h5 class="mb-1">{{ food.food_name }}</h5>
@@ -102,8 +105,13 @@
         <p><b>Price:</b> ₹{{ food.price }}</p>
 
         <div class="d-flex gap-2">
-          <a href="" class="btn btn-dark btn-sm">&#9999;</a>
-          <a href="" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
+          <a href="{% url 'editfooditem' food.id %}" class="btn btn-dark btn-sm">&#9999;</a>
+          <form action="{% url 'deletefooditem' food.id %}" method="post" style="display:inline;"
+            onsubmit="return confirm('Are you sure you want to delete this food item?');">
+
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+          </form>
         </div>
       </div>
     </div>

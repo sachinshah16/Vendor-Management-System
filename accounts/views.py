@@ -5,9 +5,11 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from accounts.models import *
 from venders.models import *
+from .decorator import logout_required
+
 
 # Create your views here.
-
+@logout_required
 def registration(request):
     registerd = False
     if request.method == 'POST':
@@ -32,6 +34,7 @@ def home(request):
     venders = multiVenders.objects.all()
     return render(request,'index.html',{'venders':venders})
 
+@logout_required
 def user_login(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -64,9 +67,9 @@ def dashboard(request):
     role = request.session.get('user_type','admin')
     
     if request.session['user_type'] == "Vender":
-        vendor = request.user.multivenders  # OneToOne relation
-        fooditems = vendor.food_items.all()  # Using related_name
-        # fooditems = foodItem.objects.filter(vender= request.user.multivenders.id)
+        # vendor = request.user.multivenders  # OneToOne relation
+        # fooditems = vendor.food_items.all()  # Using related_name
+        fooditems = foodItems.objects.filter(vender= request.user.multivenders.id)
         return render(request,'dashboard.html',{'role':role, 'fooditems':fooditems})
     return render(request,'dashboard.html',{'role':role})
     

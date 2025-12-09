@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+<style>
+  /* Cart page styles (move to static CSS later) */
+  .cart-wrap { max-width: 1180px; margin: 36px auto; }
+  .cart-card { background:#fff; padding:18px; border-radius:12px; box-shadow:0 12px 32px rgba(0,0,0,0.06); }
+  .item-thumb { width:96px; height:96px; object-fit:cover; border-radius:10px; background:#f6f6f6; }
+  .qty-input { width:72px; text-align:center; }
+  .muted-small { color:#6c757d; font-size:0.95rem; }
+  .summary-card { border-radius:12px; padding:18px; background:#fff; box-shadow:0 12px 32px rgba(0,0,0,0.06); }
+  .btn-checkout { width:100%; padding:12px; font-weight:700; }
+  .empty-cart { text-align:center; padding:40px; }
+  @media (max-width: 991px) {
+    .item-thumb { width:80px; height:80px; }
+  }
+</style>
+{% endblock head %}
+
+{% block start %}
+<div class="container cart-wrap">
+  <h2 class="mb-3">Your Cart</h2>
+
+  <div class="row g-3">
+    <!-- Cart items list -->
+    <div class="col-12 col-lg-8">
+      <div class="cart-card">
+        {% if cart_items %}
+          <div class="list-group list-group-flush">
+            {% for item in cart_items %}
+              <div class="list-group-item py-3">
+                <div class="row align-items-center gx-3">
+                  <div class="col-auto">
+                    {% if item.food_img %}
+                      <img src="{{ item.food_img.url }}" alt="{{ item.food_name }}" class="item-thumb">
+                    {% else %}
+                      <img src="{% static 'images/placeholder.png' %}" alt="placeholder" class="item-thumb">
+                    {% endif %}
+                  </div>
+
+                  <div class="col">
+                    <h5 class="mb-1">{{ item.food_name }}</h5>
+                    <div class="muted-small">Price: ₹ {{ item.price }}</div>
+                  </div>
+
+                  <div class="col-auto d-flex align-items-center gap-2">
+                    {# Update quantity form #}
+                    <form method="post" action="{% url 'cart_update' %}" class="d-flex align-items-center">
+                      {% csrf_token %}
+                      <input type="hidden" name="item_id" value="{{ item.id }}">
+                      <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control qty-input" onchange="this.form.submit()">
+                    </form>
+                  </div>
+
+                  <div class="col-auto text-end">
+                    <div class="mb-1"><strong>₹ {{ item.subtotal }}</strong></div>
+
+                    <form method="post" action="{% url 'cart_remove' %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="item_id" value="{{ item.id }}">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="mt-3 d-flex justify-content-between align-items-center">
+            <div class="muted-small">Have a promo code? (not implemented)</div>
+            <div>
+              <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">Continue shopping</a>
+            </div>
+          </div>
+
+        {% else %}
+          <div class="empty-cart">
+            <img src="{% static 'images/empty-cart.png' %}" alt="Empty cart" style="max-width:200px; opacity:0.9;">
+            <h4 class="mt-3">Your cart is empty</h4>
+            <p class="muted-small">Add some tasty items from restaurants to get started.</p>
+            <a href="{% url 'home' %}" class="btn btn-dark mt-2">Browse restaurants</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Order summary -->
+    <div class="col-12 col-lg-4">
+      <div class="summary-card">
+        <h5 class="mb-3">Order Summary</h5>
+
+        <div class="d-flex justify-content-between mb-2">
+          <div class="muted-small">Subtotal</div>
+          <div>₹ {{ total_amount|default:0 }}</div>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <div class="muted-small">Delivery</div>
+          <div>₹ {{ delivery_fee|default:0 }}</div>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <div class="muted-small">Tax</div>
+          <div>₹ {{ tax|default:0 }}</div>
+        </div>
+
+        <hr>
+
+        <div class="d-flex justify-content-between mb-3">
+          <div><strong>Grand total</strong></div>
+          <div><strong>₹ {{ grand_total|default: total_amount|default:0 }}</strong></div>
+        </div>
+
+        <form method="get" action="{% url 'checkout' %}">
+          <button type="submit" class="btn btn-dark btn-checkout">Proceed to Checkout</button>
+        </form>
+
+        <small class="muted-small d-block text-center mt-2">Secure checkout — pay on delivery or online (if enabled)</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock start %}

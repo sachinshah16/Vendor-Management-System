@@ -1,9 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from venders.models import *
 from venders.forms import *
+from accounts.decorator import *
+
 
 # Create your views here.
+@logout_required
 def venderRegister(request):
     registerd = False
 
@@ -27,11 +31,13 @@ def venderRegister(request):
 
 def vender_details(request, id=0):
     vender = multiVenders.objects.get(id=id)
-    fooditems = foodItem.objects.filter(vender = id)
+    fooditems = vender.food_items.all()
     return render(request, 'venders/vender_details.html',{'vender':vender,'fooditems':fooditems})
 
 @login_required(login_url='login')
-def addFood(request):
+def addMenu(request):
+    get_object_or_404(multiVenders, user=request.user)
+
     if request.method == "POST":
         form = addFoodForm(request.POST, request.FILES)
         if form.is_valid():
@@ -42,10 +48,12 @@ def addFood(request):
             
     else:
         form = addFoodForm()
-    return render(request, 'venders/addfood.html', {'form':form})
+    return render(request, 'venders/addmenu.html', {'form':form})
 
 @login_required(login_url='login')
 def vender_profile_update(request):
+    get_object_or_404(multiVenders, user=request.user)
+
     form = UpdateVenderForm(instance=request.user)
     form1=UpdateVenderDetailsform(instance=request.user.multivenders)
     if request.method=="POST":
@@ -59,7 +67,33 @@ def vender_profile_update(request):
 
             return redirect("dashboard")
     return render(request,"venders/vender_update.html",{"form1":form,"form2":form1})
+
+@login_required(login_url='login')
+def editFoodItem(request, id):
+    get_object_or_404(multiVenders, user=request.user)
+
+    vender = request.user.multivenders
+    food_item = get_object_or_404(vender.food_items,id=id)
+    form = editFoodForm(instance=food_item)
+
+    if request.method == 'POST':
+        form = editFoodForm(request.POST, request.FILES, instance=food_item)
+
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+
+    return render(request, 'venders/edit_food_item.html',{'form':form})   
+
+
+@login_required(login_url='login')
+@require_POST
+def deleteFoodItem(request, id):
     
-
-
+    vendor = request.user.multivenders
+    # food = vendor.food_items.get(id = id)
+    food = get_object_or_404(foodItems, id=id, vender=vendor)
+    food.delete()
+    return redirect('dashboard')
 

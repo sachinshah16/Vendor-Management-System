@@ -1,5 +1,5 @@
 from django import forms
-from venders.models import multiVenders, foodItem
+from venders.models import *
 from django.contrib.auth import get_user_model
 
 
@@ -31,8 +31,14 @@ class UpdateVenderDetailsform(forms.ModelForm):
 
 class addFoodForm(forms.ModelForm):
     class Meta:
-        model = foodItem
+        model = foodItems
         fields = '__all__'
         exclude = ('vender',)
-    
+
+class editFoodForm(forms.ModelForm):
+    class Meta:
+        model = foodItems
+        field = '__all__'
+        exclude = ('vender',)
+
     
