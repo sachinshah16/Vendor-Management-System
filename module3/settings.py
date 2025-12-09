@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_recaptcha',
     'venders',
+    'cart',
 ]
 
 MIDDLEWARE = [

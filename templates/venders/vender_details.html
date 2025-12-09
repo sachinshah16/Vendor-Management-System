@@ -109,7 +109,7 @@
 
                 {# you used an anchor for add-to-cart earlier; keep it as-is (no extra functionality) #}
                 <div>
-                  <a href="" class="btn btn-sm btn-info">Add to cart</a>
+                  <a href="{% url 'addtocart' food.id %}" class="btn btn-sm btn-info">Add to cart</a>
                 </div>
               </div>
             </div>
